@@ -1,0 +1,71 @@
+import java.util.Random;
+public class f {
+	int a[]=new int[100];//a b为一个算式中的两个数
+	int b[]=new int[100];
+	int c[]=new int[100];//c表示算式的符号 1表示加法 0表示减法
+	int ans[]=new int[100]; //ans为算式的结果 
+	int f1=0,f2=0;          //表示加法减法是否出现过
+	boolean check_Ans(int num){//减产算式结果是否满足条件
+		if(c[num]==1){
+			if((a[num]+b[num]>100))return false;
+			return true;
+		}
+		else {
+			if((a[num]-b[num])<0)return false;
+			return true;
+		}
+	}
+	boolean check_Repeat(int num){ //检查是否出现重复
+		for(int i=1;i<num;i++){
+			if (c[i]!=c[num]) continue ;
+			if ((a[i]==a[num]&&b[i]==b[num])||(a[i]==b[num]&&b[i]==a[num])) return false;
+		}
+		return true;
+	}
+	int create_Symbol(){     //算式符号产生功能 
+		Random r=new Random();
+		int k=r.nextInt(2);
+		if(f1==0){
+			k=1;
+			f1=1;
+		}
+		if(f2==0){
+			k=0;
+			f2=1;
+		}
+		return k;
+	}
+	void get_Ans(int num){ //加减法计算功能 
+		if(c[num]==1)ans[num]=a[num]+b[num];
+		else ans[num]=a[num]-b[num];
+	}
+	void print_Qu(int num,int k){//输出生成的算式
+		if(k==0){
+			System.out.printf("%3d %c %3d = %3d ",a[num],c[num]==1?'+':'-',b[num],ans[num]);		
+		}
+		else {
+			System.out.printf("%3d %c %3d = %3d ",a[num],c[num]==1?'+':'-',b[num],ans[num]);	
+			System.out.println("");
+		}
+	}
+	void create_Qu(int num){ //产生算式功能
+		Random r=new Random();
+		Random l=new Random();
+		c[num]=create_Symbol();
+		a[num]=r.nextInt(101);
+		b[num]=l.nextInt(101);
+		while(check_Ans(num)==false||check_Repeat(num)==false){
+			a[num]=r.nextInt(101);
+			b[num]=l.nextInt(101);
+		}
+	}
+	
+	public static void main(String[] args){
+		f test=new f();
+		for(int i=1;i<=50;i++){
+			test.create_Qu(i);
+			test.get_Ans(i);
+			test.print_Qu(i,i%5==0?1:0);
+		}
+	}
+}
