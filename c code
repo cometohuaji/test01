@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int a[100],b[100],c[100],ans[100];//a b为一个算式中的两个数 c表示算式的符号 ans为算式的结果 
+int symbol(){     //算式产生功能 
+	int k=rand();
+	return k%2;
+}
+void initial(){   //题目生成功能 
+	for(int i=1;i<=50;i++){
+		a[i]=rand()%101;
+		b[i]=rand()%101;
+		c[i]=symbol();
+	}
+}
+int solve(int num){ //加减法计算功能 
+	if(c[num])ans[num]=a[num]+b[num];
+	else ans[num]=a[num]-b[num];
+	return ans[num];
+}
+int main()
+{
+	srand(time(0));
+}
